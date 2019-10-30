@@ -43,3 +43,5 @@ prod.secret.exs
 *.DS_Store 
 
 *~
+
+/.idea/
