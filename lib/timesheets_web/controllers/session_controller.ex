@@ -8,10 +8,17 @@ defmodule TimesheetsWeb.SessionController do
   def create(conn, %{"email" => email}) do
     user = Timesheets.Users.get_user_by_email(email)
     if user do
-      conn
-      |> put_session(:user_id, user.id)
-      |> put_flash(:info, "Welcome back #{user.email}")
-      |> redirect(to: Routes.page_path(conn, :index))
+      if user.manager == true do
+        conn
+        |> put_session(:user_id, user.id)
+        |> put_flash(:info, "Welcome back, Manager #{user.name}")
+        |> redirect(to: Routes.user_path(conn, :index))
+      else
+        conn
+        |> put_session(:user_id, user.id)
+        |> put_flash(:info, "Welcome back, #{user.name}")
+        |> redirect(to: Routes.page_path(conn, :index))
+      end
     else
       conn
       |> put_flash(:error, "Login failed.")
