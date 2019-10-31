@@ -13,15 +13,14 @@
             <div class="col-4">
               <a class="navbar-brand" href="#">TimeSheets</a>
             </div>
-            <div class="col-8">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">All Photos</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Your Photos</a>
-                </li>
-              </ul>
+            <div class="col-4 text-light">
+                <%= if @current_user do %>
+                  User: <%= @current_user.name %>
+                  (<%= link("Logout", to: Routes.session_path(@conn, :delete),
+                     method: :delete) %>)
+                <% else %>
+                  <%= link("Login", to: Routes.session_path(@conn, :new)) %>
+                <% end %>
             </div>
           </nav>
 
