@@ -5,16 +5,16 @@
     <tr>
       <th>Workerid</th>
       <th>Status</th>
-
+      <th>Date<th>
       <th></th>
     </tr>
   </thead>
   <tbody>
 <%= for ts <- @tss do %>
     <tr>
-      <td align="center"><%= ts.workerid %></td>
-      <td align="center"><%= ts.status %></td>
-
+      <td><%= ts.workerid %></td>
+      <td><%= ts.status %></td>
+      <td><%= ts.date %></td>
       <td>
         <span><%= link "Show", to: Routes.ts_path(@conn, :show, ts) %></span>
         <span><%= link "Edit", to: Routes.ts_path(@conn, :edit, ts) %></span>

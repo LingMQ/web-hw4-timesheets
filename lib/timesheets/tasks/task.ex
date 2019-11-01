@@ -13,7 +13,7 @@ defmodule Timesheets.Tasks.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:hours, :jobcode])
-    |> validate_required([:hours, :jobcode])
+    |> cast(attrs, [:hours, :jobcode, :worker])
+    |> validate_required([:hours, :jobcode, :worker])
   end
 end

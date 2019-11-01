@@ -14,7 +14,8 @@
               <a class="navbar-brand" href="#">TimeSheets</a>
             </div>
             <%= if @current_user do %>
-                User: <%= @current_user.name %>
+                <%= @current_user.name %>,
+                id: <%= @current_user.id %>
                 (<%= link("Logout", to: Routes.session_path(@conn, :delete),
                    method: :delete) %>)
                  <span id="datetime"></span>

@@ -4,6 +4,8 @@ defmodule TimesheetsWeb.TaskController do
   alias Timesheets.Tasks
   alias Timesheets.Tasks.Task
 
+  alias Timesheets.TSS
+
   def index(conn, _params) do
     tasks = Tasks.list_tasks()
     render(conn, "index.html", tasks: tasks)
@@ -23,17 +25,38 @@ defmodule TimesheetsWeb.TaskController do
 
     id = _params["workerid"]
     date = _params["date"]
+    IO.inspect("fgkwlr")
+    IO.inspect(date)
 
-    entry = Enum.zip(jobcode_list, hour_list)
-    Enum.map(entry, fn{c, h} -> {
-      if h !== 0 do
-        task_params = %{"date" => date, "jobcode" => c, "hours" => h, "worker" => id}
-        Tasks.create_task(task_params)
-        end}
-    end)
+    hourss = hour_list
+    |> Enum.map(fn n -> Integer.parse(n) end)
+    |> Enum.filter(fn(x) -> x !== :error end)
+    |> Enum.map(fn {n, _} -> n end)
 
+    hourss = Enum.sum(hourss)
+    sheet = nil
+    if hourss === 8 do
+      case TSS.create_ts(%{workerid: id, status: "New", date: date}) do
+        {:ok, sheet} ->
+          conn
+          |> put_flash(:info, "TimeSheets created successfully.")
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, "new.html", changeset: changeset)
+      end
+
+      entry = Enum.zip(jobcode_list, hour_list)
+      Enum.map(entry, fn{c, h} -> {
+          if h !== 0 do
+             task_params = %{"date" => date, "jobcode" => c, "hours" => h, "worker" => id, "timesheetsid" => sheet}
+             Tasks.create_task(task_params)
+          end}
+      end)
+
+      conn
+      |> put_flash(:info, "Task created successfully.") |> redirect(to: Routes.task_path(conn, :index))
+    end
     conn
-    |> put_flash(:info, "Task created successfully.") |> redirect(to: Routes.task_path(conn, :index))
+    |> put_flash(:info, "Your work hours is not 8 hours.") |> redirect(to: Routes.job_path(conn, :index))
   end
 
 #  def create_task(conn, jobcode_list, hour_list, date, id, index) when index < (length(jobcode_list)) do

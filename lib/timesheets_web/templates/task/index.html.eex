@@ -1,28 +1,28 @@
-<h1>Listing Tasks</h1>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Hours</th>
-      <th>Jobcode</th>
-      <th>Worker_ID</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for task <- @tasks do %>
-    <tr>
-      <td align="center"><%= task.hours %></td>
-      <td align="center"><%= task.jobcode %></td>
-      <td align="center"><%= task.worker %></td>
-      <td>
-        <span><%= link "Show", to: Routes.task_path(@conn, :show, task) %></span>
-        <span><%= link "Edit", to: Routes.task_path(@conn, :edit, task) %></span>
-        <span><%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Task", to: Routes.task_path(@conn, :new) %></span>
+ <%= if @current_user.manager == true do %>
+    <h1> You don't have any tasks, please go to timesheets page to approve any appending timesheets</h1>
+    <span><%= link "Timesheets Page", to: Routes.ts_path(@conn, :index) %></span>
+ <% else %>
+    <h1>My Tasks</h1>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Hours</th>
+              <th>Jobcode</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+        <%= for task <- @tasks do %>
+            <tr>
+              <td><%= task.hours %></td>
+              <td><%= task.jobcode %></td>
+              <td>
+                <span><%= link "Show", to: Routes.task_path(@conn, :show, task) %></span>
+                <span><%= link "Edit", to: Routes.task_path(@conn, :edit, task) %></span>
+                <span><%= link "Delete", to: Routes.task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"] %></span>
+              </td>
+            </tr>
+        <% end %>
+          </tbody>
+        </table>
+ <% end %>

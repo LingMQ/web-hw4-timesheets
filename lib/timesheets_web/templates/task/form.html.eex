@@ -13,6 +13,9 @@
   <%= text_input f, :jobcode %>
   <%= error_tag f, :jobcode %>
 
+  <%= label f, :yourid %>
+    <%= text_input f, :worker %>
+    <%= error_tag f, :worker %>
   <div>
     <%= submit "Save" %>
   </div>
