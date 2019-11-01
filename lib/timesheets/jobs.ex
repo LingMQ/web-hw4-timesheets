@@ -21,6 +21,12 @@ defmodule Timesheets.Jobs do
     Repo.all(Job)
   end
 
+
+  def list_jobs_name do
+    query = from job in "jobs", select: job.jobname
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single job.
 

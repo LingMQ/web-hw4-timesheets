@@ -5,9 +5,13 @@ defmodule TimesheetsWeb.JobController do
   alias Timesheets.Jobs.Job
   alias Timesheets.Users.User
 
+  alias Timesheets.TSS
+
   def index(conn, _params) do
     jobs = Jobs.list_jobs()
-    render(conn, "index.html", jobs: jobs)
+    jobs_name = Jobs.list_jobs_name()
+    tss = TSS.list_tss()
+    render(conn, "index.html", jobs: jobs, jobs_name: jobs_name, tss: tss)
   end
 
   def new(conn, _params) do
@@ -16,7 +20,6 @@ defmodule TimesheetsWeb.JobController do
   end
 
   def create(conn, %{"job" => job_params}) do
-    IO.inspect(job_params)
     case Jobs.create_job(job_params) do
       {:ok, job} ->
         conn

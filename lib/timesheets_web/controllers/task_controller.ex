@@ -14,17 +14,46 @@ defmodule TimesheetsWeb.TaskController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"task" => task_params}) do
-    case Tasks.create_task(task_params) do
-      {:ok, task} ->
-        conn
-        |> put_flash(:info, "Task created successfully.")
-        |> redirect(to: Routes.task_path(conn, :show, task))
+  def create(conn, _params) do
+    jobcode_list = [_params["jobcode1"], _params["jobcode2"], _params["jobcode3"], _params["jobcode4"],
+      _params["jobcode5"], _params["jobcode6"], _params["jobcode7"], _params["jobcode8"]]
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
+    hour_list = [_params["hours1"], _params["hours2"], _params["hours3"], _params["hours4"], _params["hours5"],
+      _params["hours6"], _params["hours7"], _params["hours8"]]
+
+    id = _params["workerid"]
+    date = _params["date"]
+
+    entry = Enum.zip(jobcode_list, hour_list)
+    Enum.map(entry, fn{c, h} -> {
+      if h !== 0 do
+        task_params = %{"date" => date, "jobcode" => c, "hours" => h, "worker" => id}
+        Tasks.create_task(task_params)
+        end}
+    end)
+
+    conn
+    |> put_flash(:info, "Task created successfully.") |> redirect(to: Routes.task_path(conn, :index))
   end
+
+#  def create_task(conn, jobcode_list, hour_list, date, id, index) when index < (length(jobcode_list)) do
+#    jobcode = Enum.at(jobcode_list, index)
+#    hour = Enum.at(hour_list, index)
+#
+#    if hour !== "" do
+#      task_params = %{"date" => date, "jobcode" => jobcode, "hours" => hour, "worker" => id}
+#
+#      case Tasks.create_task(task_params) do
+#        {:ok, task} ->
+#          conn
+#          |> put_flash(:info, "Task created successfully.")
+#          |> redirect(to: Routes.task_path(conn, :show, task))
+#
+#        {:error, %Ecto.Changeset{} = changeset} ->
+#          render(conn, "new.html", changeset: changeset)
+#      end
+#    end
+#  end
 
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)

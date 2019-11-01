@@ -1,0 +1,18 @@
+<h1>Show Ts</h1>
+
+<ul>
+
+  <li>
+    <strong>Workerid:</strong>
+    <%= @ts.workerid %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @ts.status %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.ts_path(@conn, :edit, @ts) %></span>
+<span><%= link "Back", to: Routes.ts_path(@conn, :index) %></span>
