@@ -1,0 +1,28 @@
+<h1>Show Job</h1>
+
+<ul>
+
+  <li>
+    <strong>Jobname:</strong>
+    <%= @job.jobname %>
+  </li>
+
+  <li>
+    <strong>Desc:</strong>
+    <%= @job.desc %>
+  </li>
+
+  <li>
+    <strong>Code:</strong>
+    <%= @job.code %>
+  </li>
+
+  <li>
+    <strong>Budgethours:</strong>
+    <%= @job.budgethours %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.job_path(@conn, :edit, @job) %></span>
+<span><%= link "Back", to: Routes.job_path(@conn, :index) %></span>

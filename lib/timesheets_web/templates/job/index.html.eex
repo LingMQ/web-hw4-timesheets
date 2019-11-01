@@ -1,0 +1,40 @@
+ <%= if @current_user.manager == true do %>
+    <h1>Job Currently Managing</h1>
+ <% else %>
+    <h1>All Available Jobs</h1>
+ <% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Jobname</th>
+      <th>Desc</th>
+      <th>Code</th>
+      <th>Budgethours</th>
+      <th>Manager_ID</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for job <- @jobs do %>
+    <%= if (@current_user.manager && job.manager == @current_user.id)
+    || (!@current_user.manager && job.manager == @current_user.manager_id) do %>
+        <tr>
+            <td align="center"><%= job.jobname %></td>
+              <td align="center"><%= job.desc %></td>
+              <td align="center"><%= job.code %></td>
+              <td align="center"><%= job.budgethours %></td>
+              <td align="center"><%= job.manager %></td>
+            <td>
+                <span><%= link "Show", to: Routes.job_path(@conn, :show, job) %></span>
+                <span><%= link "Edit", to: Routes.job_path(@conn, :edit, job) %></span>
+                <span><%= link "Delete", to: Routes.job_path(@conn, :delete, job), method: :delete, data: [confirm: "Are you sure?"] %></span>
+            </td>
+        </tr>
+    <% end %>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Job", to: Routes.job_path(@conn, :new) %></span>

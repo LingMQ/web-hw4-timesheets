@@ -8,6 +8,8 @@ defmodule Timesheets.Users.User do
     field :manager_id, :integer
     field :name, :string
 
+    has_many :tasks, Timesheets.Tasks.Task
+
     timestamps()
   end
 

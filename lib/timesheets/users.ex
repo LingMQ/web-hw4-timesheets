@@ -7,6 +7,7 @@ defmodule Timesheets.Users do
   alias Timesheets.Repo
 
   alias Timesheets.Users.User
+  alias Timesheets.Tasks.Task
 
   @doc """
   Returns the list of users.
@@ -107,4 +108,10 @@ defmodule Timesheets.Users do
   end
 
   def get_user(id), do: Repo.get(User, id)
+
+  def get_user_with_tasks!(id) do
+    Repo.one from uu in Task,
+      where: uu.worker == ^id,
+      preload: [:tasks]
+  end
 end
