@@ -6,6 +6,7 @@ defmodule Timesheets.Tasks.Task do
     field :hours, :integer
     field :jobcode, :string
     field :worker, :id
+    field :timesheetsid, :integer
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule Timesheets.Tasks.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:hours, :jobcode, :worker])
-    |> validate_required([:hours, :jobcode, :worker])
+    |> cast(attrs, [:hours, :jobcode, :worker, :timesheetsid])
+    |> validate_required([:hours, :jobcode, :worker, :timesheetsid])
   end
 end

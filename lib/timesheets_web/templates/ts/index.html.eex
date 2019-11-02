@@ -3,6 +3,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>TimesheetsId</th>
       <th>Workerid</th>
       <th>Status</th>
       <th>Date<th>
@@ -15,13 +16,14 @@
    <%= if (@current_user.manager && @user_tool.get_user(ts.workerid).manager_id == @current_user.id)
     || (!@current_user.manager && ts.workerid == @current_user.id) do %>
     <tr>
+      <td><%= ts.id %></td>
       <td><%= ts.workerid %></td>
       <td><%= ts.status %></td>
       <td><%= ts.date %></td>
       <td>
         <span class="col"><%= link "Show", to: Routes.ts_path(@conn, :show, ts) %></span>
         <span class="col"><%= link "Approve", to: Routes.ts_path(@conn, :edit, ts) %></span>
-        <span><%= link "Delete", to: Routes.ts_path(@conn, :delete, ts), method: :delete, data: [confirm: "Are you sure?"] %></span>
+        <span class="col"><%= link "Delete", to: Routes.ts_path(@conn, :delete, ts), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>
     </tr>
     <% end %>
