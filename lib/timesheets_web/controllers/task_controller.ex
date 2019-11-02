@@ -25,8 +25,6 @@ defmodule TimesheetsWeb.TaskController do
 
     id = _params["workerid"]
     date = _params["date"]
-    IO.inspect("fgkwlr")
-    IO.inspect(date)
 
     hourss = hour_list
     |> Enum.map(fn n -> Integer.parse(n) end)
@@ -41,19 +39,24 @@ defmodule TimesheetsWeb.TaskController do
           conn
           |> put_flash(:info, "TimeSheets created successfully.")
         {:error, %Ecto.Changeset{} = changeset} ->
-          render(conn, "new.html", changeset: changeset)
+          conn
+          |> put_flash(:info, "Timesheets error")
       end
 
-      entry = Enum.zip(jobcode_list, hour_list)
-      Enum.map(entry, fn{c, h} -> {
-          if h !== 0 do
-             task_params = %{"date" => date, "jobcode" => c, "hours" => h, "worker" => id, "timesheetsid" => sheet}
-             Tasks.create_task(task_params)
-          end}
-      end)
+      if !is_nil(sheet) do
+        entry = Enum.zip(jobcode_list, hour_list)
+        Enum.map(entry, fn{c, h} -> {
+                                      if h !== 0 do
+                                        task_params = %{"date" => date, "jobcode" => c, "hours" => h, "worker" => id, "timesheetsid" => sheet}
+                                        Tasks.create_task(task_params)
+                                      end}
+        end)
 
+        conn
+        |> put_flash(:info, "Task created successfully.") |> redirect(to: Routes.task_path(conn, :index))
+      end
       conn
-      |> put_flash(:info, "Task created successfully.") |> redirect(to: Routes.task_path(conn, :index))
+      |> put_flash(:info, "Timesheet duplicates") |> redirect(to: Routes.job_path(conn, :index))
     end
     conn
     |> put_flash(:info, "Your work hours is not 8 hours.") |> redirect(to: Routes.job_path(conn, :index))

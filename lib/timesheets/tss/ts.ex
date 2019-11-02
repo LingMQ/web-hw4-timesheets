@@ -13,6 +13,7 @@ defmodule Timesheets.TSS.TS do
   def changeset(ts, attrs) do
     ts
     |> cast(attrs, [:workerid, :status, :date])
+    |> unique_constraint(:id, name: :tss_workerid_date_index)
     |> validate_required([:workerid, :status, :date])
   end
 end

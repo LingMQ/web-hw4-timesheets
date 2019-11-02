@@ -52,7 +52,7 @@ defmodule Timesheets.TSS do
   def create_ts(attrs \\ %{}) do
     %TS{}
     |> TS.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert(on_conflict: :nothing)
   end
 
   @doc """
