@@ -8,7 +8,6 @@
             <tr>
               <th>Hours</th>
               <th>Jobcode</th>
-              <th>TimeSheetId</th>
             </tr>
           </thead>
           <tbody>
@@ -16,7 +15,6 @@
             <tr>
               <td><%= task.hours %></td>
               <td><%= task.jobcode %></td>
-              <td><%= task.timesheetsid %></td>
               <td>
                 <span class="col"><%= link "Show", to: Routes.task_path(@conn, :show, task) %></span>
                 <span class="col"><%= link "Edit", to: Routes.task_path(@conn, :edit, task) %></span>
@@ -26,4 +24,6 @@
         <% end %>
           </tbody>
         </table>
+
+    <span><%= link "Back to Worker Main page", to: Routes.job_path(@conn, :index) %></span>
  <% end %>

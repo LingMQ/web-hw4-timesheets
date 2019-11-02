@@ -11,14 +11,22 @@
 # and so on) as they will fail if something goes wrong.
 alias Timesheets.Repo
 alias Timesheets.Users.User
+alias Timesheets.Jobs.Job
 
 
-pw1 = Argon2.hash_pwd_salt("password1234")
-pw2 = Argon2.hash_pwd_salt("password5678")
+pw1 = Argon2.hash_pwd_salt("password123")
+pw2 = Argon2.hash_pwd_salt("password456")
 
-Repo.insert!(%User{id: 4, name: "manager1", email: "m1@timesheet.com", manager: true, manager_id: -1, password_hash: pw1})
-Repo.insert!(%User{id: 5, name: "manager2", email: "m2@timesheet.com", manager: true, manager_id: -1, password_hash: pw1})
+Repo.insert!(%User{id: 1, name: "e", email: "e@example.com", manager: true, manager_id: -1, password_hash: pw1})
+Repo.insert!(%User{id: 2, name: "manager1", email: "m1@timesheet.com", manager: true, manager_id: -1, password_hash: pw1})
+Repo.insert!(%User{id: 3, name: "manager2", email: "m2@timesheet.com", manager: true, manager_id: -1, password_hash: pw1})
 
+Repo.insert!(%User{id: 4, name: "alice", email: "alice@example.com", manager: false, manager_id: 1, password_hash: pw2})
+Repo.insert!(%User{id: 5, name: "bob", email: "bob@example.com", manager: false, manager_id: 1, password_hash: pw2})
 Repo.insert!(%User{id: 6, name: "worker1", email: "w1@timesheet.com", manager: false, manager_id: 4, password_hash: pw2})
 Repo.insert!(%User{id: 7, name: "worker2", email: "w2@timesheet.com", manager: false, manager_id: 4, password_hash: pw2})
 Repo.insert!(%User{id: 8, name: "worker3", email: "w3@timesheet.com", manager: false, manager_id: 4, password_hash: pw2})
+
+Repo.insert!(%Job{id: 1, jobname: "moon", desc: "moving to moon", code: "A12", budgethours: 20, manager: 1})
+Repo.insert!(%Job{id: 3, jobname: "earth", desc: "saving earth environment", code: "A15", budgethours: 50, manager: 1})
+Repo.insert!(%Job{id: 2, jobname: "mars", desc: "hello moon", code: "W79", budgethours: 100, manager: 2})

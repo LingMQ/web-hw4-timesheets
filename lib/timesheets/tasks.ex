@@ -52,7 +52,7 @@ defmodule Timesheets.Tasks do
 
   """
   def get_task_by_timesheets!(id) do
-    query = from task in "tasks", select: {task.worker, task.jobcode, task.hours}, where: task.timesheetsid == ^id
+    query = from task in "tasks", select: %{worker: task.worker, jobcode: task.jobcode, hours: task.hours}, where: task.timesheetsid == ^id
     Repo.all(query)
   end
 

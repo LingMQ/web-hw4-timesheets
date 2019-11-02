@@ -38,6 +38,12 @@
 <div class="flex-md-row">
 -----------------
 </div>
+<div class="flex-md-row">
+<span><%= link "Manager: Back to Manager Job Page", to: Routes.job_path(@conn, :index) %></span>
+</div>
+<div class="flex-md-row">
+-----------------
+</div>
 <% end %>
 
 <%= if !@current_user.manager do %>
