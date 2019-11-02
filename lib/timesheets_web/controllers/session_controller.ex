@@ -5,8 +5,9 @@ defmodule TimesheetsWeb.SessionController do
     render(conn, "new.html")
   end
 
-  def create(conn, %{"email" => email}) do
-    user = Timesheets.Users.get_user_by_email(email)
+  def create(conn, %{"email" => email, "password" => password}) do
+    user = Timesheets.Users.authenticate(email, password)
+    #user = Timesheets.Users.get_user_by_email(email)
     if user do
       if user.manager == true do
         conn

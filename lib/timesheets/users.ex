@@ -114,4 +114,12 @@ defmodule Timesheets.Users do
       where: uu.worker == ^id,
       preload: [:tasks]
   end
+
+  def authenticate(email, pass) do
+    user = Repo.get_by(User, email: email)
+    case Argon2.check_pass(user, pass) do
+      {:ok, user} -> user
+      _ -> nil
+    end
+  end
 end
