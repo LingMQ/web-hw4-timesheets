@@ -1,9 +1,9 @@
-<h1>Show Ts</h1>
+<h1>Show Timesheets</h1>
 
 <ul>
 
   <li>
-    <strong>Workerid:</strong>
+    <strong>Worker Id:</strong>
     <%= @ts.workerid %>
   </li>
 
@@ -12,7 +12,30 @@
     <%= @ts.status %>
   </li>
 
-</ul>
+  <li>
+      <strong>Created Date:</strong>
+      <%= @ts.date %>
+  </li>
 
-<span><%= link "Edit", to: Routes.ts_path(@conn, :edit, @ts) %></span>
-<span><%= link "Back", to: Routes.ts_path(@conn, :index) %></span>
+</ul>
+<h3> The list of tasks in this Timesheets </h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Worker Id</th>
+      <th>Job Code</th>
+      <th>Hours<th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for one <- @task_tool.get_task_by_timesheets!(@ts.id) do %>
+        <tr>
+          <td><%= one.worker %></td>
+          <td><%= one.jobcode %></td>
+          <td><%= one.hours %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span class="flex-md-row"><%= link "Back", to: Routes.ts_path(@conn, :index) %></span>

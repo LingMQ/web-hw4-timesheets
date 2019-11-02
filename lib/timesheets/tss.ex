@@ -7,6 +7,8 @@ defmodule Timesheets.TSS do
   alias Timesheets.Repo
 
   alias Timesheets.TSS.TS
+  alias Timesheets.Jobs
+  alias Timesheets.Tasks
 
   @doc """
   Returns the list of tss.
@@ -71,6 +73,11 @@ defmodule Timesheets.TSS do
     ts
     |> TS.changeset(attrs)
     |> Repo.update()
+  end
+
+  def approve_sheet(id) do
+    ts = get_ts!(id)
+    update_ts(ts, %{status: "Approved"})
   end
 
   @doc """

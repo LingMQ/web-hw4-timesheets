@@ -4,9 +4,12 @@ defmodule TimesheetsWeb.TSController do
   alias Timesheets.TSS
   alias Timesheets.TSS.TS
 
+  alias Timesheets.Users
+  alias Timesheets.Tasks
+
   def index(conn, _params) do
     tss = TSS.list_tss()
-    render(conn, "index.html", tss: tss)
+    render(conn, "index.html", tss: tss, user_tool: Users)
   end
 
   def new(conn, _params) do
@@ -28,13 +31,20 @@ defmodule TimesheetsWeb.TSController do
 
   def show(conn, %{"id" => id}) do
     ts = TSS.get_ts!(id)
-    render(conn, "show.html", ts: ts)
+    render(conn, "show.html", ts: ts, task_tool: Tasks)
   end
 
   def edit(conn, %{"id" => id}) do
     ts = TSS.get_ts!(id)
-    changeset = TSS.change_ts(ts)
-    render(conn, "edit.html", ts: ts, changeset: changeset)
+    case TSS.approve_sheet(id) do
+      {:ok, ts} ->
+        conn
+        |> put_flash(:info, "Timesheets approved successfully.")
+        |> redirect(to: Routes.ts_path(conn, :index))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", ts: ts, changeset: changeset)
+    end
   end
 
   def update(conn, %{"id" => id, "ts" => ts_params}) do
@@ -59,4 +69,5 @@ defmodule TimesheetsWeb.TSController do
     |> put_flash(:info, "Ts deleted successfully.")
     |> redirect(to: Routes.ts_path(conn, :index))
   end
+
 end

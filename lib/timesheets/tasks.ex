@@ -38,6 +38,25 @@ defmodule Timesheets.Tasks do
   def get_task!(id), do: Repo.get!(Task, id)
 
   @doc """
+  Gets a single task.
+
+  Raises `Ecto.NoResultsError` if the Task does not exist.
+
+  ## Examples
+
+      iex> get_task!(123)
+      %Task{}
+
+      iex> get_task!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_task_by_timesheets!(id) do
+    query = from task in "tasks", select: {task.worker, task.jobcode, task.hours}, where: task.timesheetsid == ^id
+    Repo.all(query)
+  end
+
+  @doc """
   Creates a task.
 
   ## Examples
@@ -102,3 +121,5 @@ defmodule Timesheets.Tasks do
     Task.changeset(task, %{})
   end
 end
+
+

@@ -43,7 +43,7 @@
 <% end %>
 
 <%= if !@current_user.manager do %>
-    <span><%= link "Create New Time Sheets", to: Routes.ts_path(@conn, :index) %></span>
+    <span><%= link "View All My Timesheets", to: Routes.ts_path(@conn, :index) %></span>
 
 <%= for ts <- @tss do %>
 <% end %>
