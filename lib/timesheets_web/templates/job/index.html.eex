@@ -39,11 +39,17 @@
   </tbody>
 </table>
 <%= if @current_user.manager do %>
-<div class="flex-md-row">
-    <span><%= link "New Job", to: Routes.job_path(@conn, :new) %></span>
+    <div class="flex-md-row">
+        <span><%= link "New Job", to: Routes.job_path(@conn, :new) %></span>
     </div>
     <div class="flex-md-row">
-    <span><%= link "Go to Timesheets Page", to: Routes.ts_path(@conn, :index) %></span>
+    ----------
+    </div>
+    <div class="flex-md-row">
+        <span><%= link "Go to Timesheets Page", to: Routes.ts_path(@conn, :index) %></span>
+    </div>
+    <div class="flex-md-row">
+    -------------------------
     </div>
 <% end %>
 
